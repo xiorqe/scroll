@@ -137,8 +137,17 @@
         this._init(options);
     }
     $.extend(CusScrollBar.prototype,{
-        _init: function(){
-            console.log('test1');
+        _init: function(options){
+            var self = this;
+            self.options = {
+                scrollDir: "y",
+                contSelector: "",
+                barSelector: "",
+                sliderSelector: ""
+            }
+            $.extend(true,self.options, options || {});
+            console.log(self.options.contSelector);
+            return self;
         }
     })
     // CusScrollBar.prototype._init = function(){
@@ -146,7 +155,18 @@
     // }
     win.CusScrollBar = CusScrollBar;
 })(window,document,jQuery);
-new CusScrollBar();
+var scroll1 = new CusScrollBar({
+    contSelector: "scroll-wrap",
+    barSelector: "scroll-bar",
+    sliderSelector: "scroll-slider"
+});
+var scroll2 = new CusScrollBar({
+    contSelector: "scroll-wrap2",
+    barSelector: "scroll-bar2",
+    sliderSelector: "scroll-slider2"
+});
+console.log(scroll1);
+console.log(scroll2);
 /*
 *
 * $.extend 三种使用形式
