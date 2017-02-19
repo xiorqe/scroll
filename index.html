@@ -146,8 +146,37 @@
                 sliderSelector: ""
             }
             $.extend(true,self.options, options || {});
-            console.log(self.options.contSelector);
+            self._initDomEvent();
             return self;
+        },
+        _initDomEvent: function(){
+            var opts = this.options;
+            this.$cont = $(opts.contSelector);
+            this.$slider = $(opts.sliderSelector);
+            this.$bar = opts.barSelector ? $(opts.barSelector) : self.$slider.parent();
+            this.$doc = $(doc);
+            this._initSliderDragEvent();
+        },
+        _initSliderDragEvent : function(){
+            var slider = this.$slider,
+                sliderEl = slider[0];
+            if(sliderEl){
+                console.log("slider");
+                var doc = this.$doc,
+                    dragStartPagePosition,
+                    dragStartScrollPosition,
+                    dragContBarRate;
+                slider.on("mousedown",function(e){
+                    e.preventDefault();
+                    console.log("mousedown");
+                    doc.on("mousemove.scroll",function(e){
+                        console.log("mousemove");
+                    }).on("mouseup.scroll",function(e){
+                        console.log("mouseup");
+                        doc.off(".scroll");
+                    })
+                })
+            }
         }
     })
     // CusScrollBar.prototype._init = function(){
@@ -156,17 +185,11 @@
     win.CusScrollBar = CusScrollBar;
 })(window,document,jQuery);
 var scroll1 = new CusScrollBar({
-    contSelector: "scroll-wrap",
-    barSelector: "scroll-bar",
-    sliderSelector: "scroll-slider"
-});
-var scroll2 = new CusScrollBar({
-    contSelector: "scroll-wrap2",
-    barSelector: "scroll-bar2",
-    sliderSelector: "scroll-slider2"
+    contSelector: ".scroll-wrap",
+    barSelector: ".scroll-bar",
+    sliderSelector: ".scroll-slider"
 });
 console.log(scroll1);
-console.log(scroll2);
 /*
 *
 * $.extend 三种使用形式
